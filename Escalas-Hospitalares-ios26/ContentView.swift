@@ -6,30 +6,31 @@ enum ScaleCategory: String, CaseIterable {
     case pediatria = "Avaliações Pediátricas"
 }
 
-// Estrutura para representar cada escala médica, agora com uma categoria.
+// Estrutura para representar cada escala médica, agora com uma categoria e ícone.
 struct MedicalScale: Identifiable, Hashable {
     let id = UUID()
     let name: String
     let description: String
     let category: ScaleCategory
+    let icon: String // SF Symbol name
 }
 
-// Onde definimos todas as escalas, agora atribuindo uma categoria a cada uma.
+// Onde definimos todas as escalas, agora com categoria e ícone.
 struct ScalesData {
     static let allScales: [MedicalScale] = [
         // Adulto & Geral
-        MedicalScale(name: "Glasgow", description: "Avaliação do nível de consciência", category: .adulto),
-        MedicalScale(name: "Morse", description: "Risco de queda em adultos", category: .adulto),
-        MedicalScale(name: "Braden", description: "Risco de lesão por pressão", category: .adulto),
-        MedicalScale(name: "Ramsay", description: "Nível de sedação", category: .adulto),
-        MedicalScale(name: "MEEM", description: "Mini Exame do Estado Mental", category: .adulto),
-        MedicalScale(name: "MEWS", description: "Alerta de deterioração em adultos", category: .adulto),
-        MedicalScale(name: "NEWS2", description: "Alerta nacional de deterioração", category: .adulto),
+        MedicalScale(name: "Glasgow", description: "Avaliação do nível de consciência", category: .adulto, icon: "brain.head.profile"),
+        MedicalScale(name: "Morse", description: "Risco de queda em adultos", category: .adulto, icon: "figure.fall"),
+        MedicalScale(name: "Braden", description: "Risco de lesão por pressão", category: .adulto, icon: "bed.double"),
+        MedicalScale(name: "Ramsay", description: "Nível de sedação", category: .adulto, icon: "zzz"),
+        MedicalScale(name: "MEEM", description: "Mini Exame do Estado Mental", category: .adulto, icon: "brain"),
+        MedicalScale(name: "MEWS", description: "Alerta de deterioração em adultos", category: .adulto, icon: "heart.text.square"),
+        MedicalScale(name: "NEWS2", description: "Alerta nacional de deterioração", category: .adulto, icon: "waveform.path.ecg"),
         
         // Pediátricas
-        MedicalScale(name: "Apgar", description: "Vitalidade do recém-nascido", category: .pediatria),
-        MedicalScale(name: "Humpty Dumpty", description: "Risco de queda em pediatria", category: .pediatria),
-        MedicalScale(name: "PEWS", description: "Alerta de deterioração pediátrica", category: .pediatria)
+        MedicalScale(name: "Apgar", description: "Vitalidade do recém-nascido", category: .pediatria, icon: "figure.child"),
+        MedicalScale(name: "Humpty Dumpty", description: "Risco de queda em pediatria", category: .pediatria, icon: "figure.child.and.lock"),
+        MedicalScale(name: "PEWS", description: "Alerta de deterioração pediátrica", category: .pediatria, icon: "heart.circle")
     ]
 }
 
@@ -54,13 +55,24 @@ struct ContentView: View {
                         // Filtra e lista apenas as escalas que pertencem à categoria atual.
                         ForEach(escalas.filter { $0.category == category }) { escala in
                             NavigationLink(destination: ScaleDetailView(scale: escala)) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(escala.name)
-                                        .fontWeight(.bold)
+                                HStack(spacing: 12) {
+                                    // Ícone da escala
+                                    Image(systemName: escala.icon)
+                                        .font(.title2)
                                         .foregroundColor(.accentColor)
-                                    Text(escala.description)
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
+                                        .frame(width: 28, height: 28)
+                                    
+                                    // Conteúdo textual
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(escala.name)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.primary)
+                                        Text(escala.description)
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    
+                                    Spacer()
                                 }
                                 .padding(.vertical, 8)
                             }

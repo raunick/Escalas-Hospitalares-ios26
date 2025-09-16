@@ -10,7 +10,7 @@ struct AboutView: View {
         static let horizontalPadding: CGFloat = 20
         static let cornerRadius: CGFloat = 12
         static let lineSpacing: CGFloat = 5
-        static let appVersion = "1.0.0"
+        static let appVersion = "1.26.0"
         static let developerName = "Raunick Vileforte"
     }
     
