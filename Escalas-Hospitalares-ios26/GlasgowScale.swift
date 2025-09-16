@@ -165,12 +165,23 @@ struct GlasgowScaleView: View {
     }
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo: Olho(\(aberturaOcular)), Verbal(\(respostaVerbal)), Motor(\(respostaMotora)) = Total \(totalScore)")
-        
+        let parameters = "Olho(\(aberturaOcular)), Verbal(\(respostaVerbal)), Motor(\(respostaMotora))"
+
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Glasgow",
+            category: "adulto",
+            description: "Avaliação do nível de consciência",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: parameters
+        )
+
+        print("Resultado salvo: \(parameters) = Total \(totalScore)")
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

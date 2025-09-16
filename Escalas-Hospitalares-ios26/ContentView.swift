@@ -44,6 +44,7 @@ struct ContentView: View {
     // Acessa a preferência de tema do usuário
     @AppStorage("isDarkMode") private var isDarkMode = false
 
+    
     var body: some View {
         NavigationStack {
             List {
@@ -52,7 +53,7 @@ struct ContentView: View {
                     Section(header: Text(category.rawValue)) {
                         // Filtra e lista apenas as escalas que pertencem à categoria atual.
                         ForEach(escalas.filter { $0.category == category }) { escala in
-                            NavigationLink(value: escala) {
+                            NavigationLink(destination: ScaleDetailView(scale: escala)) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(escala.name)
                                         .fontWeight(.bold)
@@ -75,75 +76,83 @@ struct ContentView: View {
                             .foregroundColor(.accentColor)
                     }
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isDarkMode.toggle()
-                    }) {
-                        Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill")
-                            .foregroundColor(.accentColor)
+                    HStack(spacing: 16) {
+                        NavigationLink(destination: HistoryView()) {
+                            Image(systemName: "clock.arrow.circlepath")
+                                .foregroundColor(.accentColor)
+                        }
+
+                        Button(action: {
+                            isDarkMode.toggle()
+                        }) {
+                            Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill")
+                                .foregroundColor(.accentColor)
+                        }
                     }
                 }
             }
-            .navigationDestination(for: MedicalScale.self) { escala in
-                ScaleDetailView(scale: escala)
-            }
         }
+        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 
 // View que decide qual formulário de escala mostrar.
 struct ScaleDetailView: View {
     let scale: MedicalScale
-    
+
     // Detecta o tema atual do sistema
     @Environment(\.colorScheme) private var colorScheme
-    
+
     var body: some View {
-        // Um 'switch' para direcionar para a View correta baseada no nome da escala.
-        switch scale.name {
-        case "Glasgow":
-            GlasgowScaleView()
-        case "Morse":
-            MorseScaleView()
-        case "Ramsay":
-            RamsayScaleView()
-        case "Apgar":
-            ApgarScaleView()
-        case "Braden":
-            BradenScaleView()
-        case "Humpty Dumpty":
-            HumptyDumptyScaleView()
-        case "MEEM":
-            MeemScaleView()
-        case "PEWS":
-            PewsScaleView()
-        case "MEWS":
-            MewsScaleView()
-        case "NEWS2":
-            News2ScaleView()
-        // Você pode adicionar `case` para as outras escalas aqui.
-        default:
-            // Uma view padrão para as escalas que ainda não foram implementadas.
-            VStack(spacing: 16) {
-                Image(systemName: "hammer.fill")
-                    .font(.largeTitle)
-                    .foregroundColor(.secondary)
-                Text("Em Construção")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                Text("O formulário para a escala de \(scale.name) estará disponível em breve.")
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                    .foregroundColor(.secondary)
+        Group {
+            // Um 'switch' para direcionar para a View correta baseada no nome da escala.
+            switch scale.name {
+            case "Glasgow":
+                GlasgowScaleView()
+            case "Morse":
+                MorseScaleView()
+            case "Ramsay":
+                RamsayScaleView()
+            case "Apgar":
+                ApgarScaleView()
+            case "Braden":
+                BradenScaleView()
+            case "Humpty Dumpty":
+                HumptyDumptyScaleView()
+            case "MEEM":
+                MeemScaleView()
+            case "PEWS":
+                PewsScaleView()
+            case "MEWS":
+                MewsScaleView()
+            case "NEWS2":
+                News2ScaleView()
+            // Você pode adicionar `case` para as outras escalas aqui.
+            default:
+                // Uma view padrão para as escalas que ainda não foram implementadas.
+                VStack(spacing: 16) {
+                    Image(systemName: "hammer.fill")
+                        .font(.largeTitle)
+                        .foregroundColor(.secondary)
+                    Text("Em Construção")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                    Text("O formulário para a escala de \(scale.name) estará disponível em breve.")
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                        .foregroundColor(.secondary)
+                }
+                .navigationTitle(scale.name)
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .navigationTitle(scale.name)
-            .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationTitle(scale.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
-
 
 // Visualizador para o Xcode poder mostrar o design da ContentView.
 struct ContentView_Previews: PreviewProvider {

@@ -229,12 +229,20 @@ struct PewsScaleView: View {
     }
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - PEWS: Comportamento(\(comportamento)), Cardiovascular(\(cardiovascular)), Respiratório(\(respiratorio)), Nebulização(\(usoNebulizacao)), Vômito(\(vomitoPosOperatorio)) = Total \(totalScore)")
-        
+        // Salva o resultado no Core Data
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Escala PEWS",
+            category: "pediatria",
+            description: "Pediatric Early Warning Score - Identificação precoce de deterioração clínica em pacientes pediátricos",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: "Comportamento: \(comportamento), Cardiovascular: \(cardiovascular), Respiratório: \(respiratorio), Nebulização: \(usoNebulizacao), Vômito: \(vomitoPosOperatorio)"
+        )
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

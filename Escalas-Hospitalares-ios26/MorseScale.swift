@@ -224,12 +224,23 @@ struct MorseScaleView: View {
     }
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - Morse: História(\(historiaQuedas)), Diagnóstico(\(diagnosticoSecundario)), Auxílio(\(auxilioDeambulacao)), Terapia(\(terapiaEndovenosa)), Marcha(\(marchaTransferencia)), Mental(\(estadoMental)) = Total \(totalScore)")
-        
+        let parameters = "História(\(historiaQuedas)), Diagnóstico(\(diagnosticoSecundario)), Auxílio(\(auxilioDeambulacao)), Terapia(\(terapiaEndovenosa)), Marcha(\(marchaTransferencia)), Mental(\(estadoMental))"
+
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Morse",
+            category: "adulto",
+            description: "Risco de queda em adultos",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: parameters
+        )
+
+        print("Resultado salvo - Morse: \(parameters) = Total \(totalScore)")
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

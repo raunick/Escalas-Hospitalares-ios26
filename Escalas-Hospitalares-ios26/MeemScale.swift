@@ -287,12 +287,20 @@ struct MeemScaleView: View {
     // MARK: - Logic
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - MEEM: Total \(totalScore)/30 - \(interpretation.text) (Escolaridade: \(escolaridadeOptions.first(where: { $0.0 == escolaridade })?.1 ?? ""))")
-        
+        // Salva o resultado no Core Data
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Mini Exame do Estado Mental",
+            category: "adulto",
+            description: "Avaliação cognitiva breve para detecção de alterações mentais",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: "Orientação Temporal: \(orientacaoTemporal), Orientação Espacial: \(orientacaoEspacial), Memória Imediata: \(memoriaImediata), Atenção: \(atencaoCalculo), Evocação: \(evocacao), Linguagem: \(linguagem), Escolaridade: \(escolaridadeOptions.first(where: { $0.0 == escolaridade })?.1 ?? "")"
+        )
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

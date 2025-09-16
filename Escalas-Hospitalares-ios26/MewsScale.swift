@@ -262,12 +262,20 @@ struct MewsScaleView: View {
     }
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - MEWS: PA(\(pressaoArterial)), FC(\(frequenciaCardiaca)), FR(\(frequenciaRespiratoria)), Temp(\(temperatura)), Consciência(\(nivelConsciencia)) = Total \(totalScore)")
-        
+        // Salva o resultado no Core Data
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Escala MEWS",
+            category: "adulto",
+            description: "Modified Early Warning Score - Identificação precoce de pacientes em risco de deterioração clínica",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: "PA: \(pressaoArterial), FC: \(frequenciaCardiaca), FR: \(frequenciaRespiratoria), Temp: \(temperatura), Consciência: \(nivelConsciencia)"
+        )
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

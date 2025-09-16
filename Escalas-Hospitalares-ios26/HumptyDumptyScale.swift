@@ -245,12 +245,20 @@ struct HumptyDumptyScaleView: View {
     }
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - Humpty Dumpty: Idade(\(idade)), Gênero(\(genero)), Diagnóstico(\(diagnostico)), Cognitivo(\(comprometimentoCognitivo)), Ambiental(\(fatoresAmbientais)), Cirurgia(\(respostaCirurgia)), Medicamentos(\(usoMedicamentos)) = Total \(totalScore)")
-        
+        // Salva o resultado no Core Data
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Escala Humpty Dumpty",
+            category: "pediatria",
+            description: "Avaliação do risco de queda em pacientes pediátricos",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: "Idade: \(idade), Gênero: \(genero), Diagnóstico: \(diagnostico), Cognitivo: \(comprometimentoCognitivo), Ambiental: \(fatoresAmbientais), Cirurgia: \(respostaCirurgia), Medicamentos: \(usoMedicamentos)"
+        )
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

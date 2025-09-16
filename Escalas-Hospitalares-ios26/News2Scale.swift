@@ -303,12 +303,20 @@ struct News2ScaleView: View {
     }
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - NEWS2: FR(\(frequenciaRespiratoria)), SatO2(\(saturacaoOxigenio)), O2(\(oxigenoterapia)), PA(\(pressaoArterial)), FC(\(frequenciaCardiaca)), Consciência(\(nivelConsciencia)), Temp(\(temperatura)) = Total \(totalScore) (Escala O2: \(escalaOxigenio))")
-        
+        // Salva o resultado no Core Data
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Escala NEWS2",
+            category: "adulto",
+            description: "National Early Warning Score 2 - Sistema padronizado de detecção de deterioração clínica",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: "FR: \(frequenciaRespiratoria), SatO2: \(saturacaoOxigenio), O2: \(oxigenoterapia), PA: \(pressaoArterial), FC: \(frequenciaCardiaca), Consciência: \(nivelConsciencia), Temp: \(temperatura), Escala O2: \(escalaOxigenio)"
+        )
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

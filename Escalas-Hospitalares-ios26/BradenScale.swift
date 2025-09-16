@@ -233,12 +233,23 @@ struct BradenScaleView: View {
     }
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - Braden: Percepção(\(percepcaoSensorial)), Umidade(\(umidade)), Atividade(\(atividade)), Mobilidade(\(mobilidade)), Nutrição(\(nutricao)), Fricção(\(friccaoCisalhamento)) = Total \(totalScore)")
-        
+        let parameters = "Percepção(\(percepcaoSensorial)), Umidade(\(umidade)), Atividade(\(atividade)), Mobilidade(\(mobilidade)), Nutrição(\(nutricao)), Fricção(\(friccaoCisalhamento))"
+
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Braden",
+            category: "adulto",
+            description: "Risco de lesão por pressão",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: parameters
+        )
+
+        print("Resultado salvo - Braden: \(parameters) = Total \(totalScore)")
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

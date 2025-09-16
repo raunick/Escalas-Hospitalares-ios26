@@ -220,12 +220,20 @@ struct ApgarScaleView: View {
     // MARK: - Logic
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - Apgar: FC(\(frequenciaCardiaca)), Resp(\(respiracao)), Tonus(\(tonusMuscular)), Reflexo(\(irritabilidadeReflexa)), Cor(\(corPele)) = Total \(totalScore)")
-        
+        // Salva o resultado no Core Data
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Escala de Apgar",
+            category: "pediatria",
+            description: "Avaliação da vitalidade do recém-nascido",
+            score: Int16(totalScore),
+            totalPoints: Int16(totalScore),
+            interpretation: interpretation.text,
+            parameters: "FC: \(frequenciaCardiaca), Resp: \(respiracao), Tonus: \(tonusMuscular), Reflexo: \(irritabilidadeReflexa), Cor: \(corPele)"
+        )
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

@@ -144,12 +144,20 @@ struct RamsayScaleView: View {
     // MARK: - Logic
     
     private func saveResult() {
-        // Lógica para salvar os dados viria aqui
-        print("Resultado salvo - Ramsay: Nível \(nivelSedacao) - \(interpretation.text)")
-        
+        // Salva o resultado no Core Data
+        CoreDataManager.shared.saveScaleResult(
+            scaleName: "Escala de Ramsay",
+            category: "adulto",
+            description: "Avaliação do nível de sedação em pacientes",
+            score: Int16(nivelSedacao),
+            totalPoints: Int16(nivelSedacao),
+            interpretation: interpretation.text,
+            parameters: "Nível de sedação: \(nivelSedacao)"
+        )
+
         // Ativa a animação
         isSaved = true
-        
+
         // Esconde a animação após 2 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isSaved = false

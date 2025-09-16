@@ -11,10 +11,11 @@ import SwiftUI
 struct Escalas_Hospitalares_ios26App: App {
     // Armazena a preferência de tema do usuário
     @AppStorage("isDarkMode") private var isDarkMode = false
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="24E241" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="NO" userDefinedModelVersionIdentifier="">
+    <entity name="ScaleResult" representedClassName="ScaleResult" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionText" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="interpretation" optional="YES" attributeType="String"/>
+        <attribute name="parameters" optional="YES" attributeType="String"/>
+        <attribute name="score" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="scaleName" optional="YES" attributeType="String"/>
+        <attribute name="totalPoints" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="ScaleResult" positionX="-63" positionY="-18" width="128" height="180"/>
+    </elements>
+</model>
