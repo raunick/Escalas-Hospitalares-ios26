@@ -23,7 +23,6 @@ struct ScalesData {
         MedicalScale(name: "Morse", description: "Risco de queda em adultos", category: .adulto, icon: "figure.fall"),
         MedicalScale(name: "Braden", description: "Risco de lesão por pressão", category: .adulto, icon: "bed.double"),
         MedicalScale(name: "Ramsay", description: "Nível de sedação", category: .adulto, icon: "zzz"),
-        MedicalScale(name: "MEEM", description: "Mini Exame do Estado Mental", category: .adulto, icon: "brain"),
         MedicalScale(name: "MEWS", description: "Alerta de deterioração em adultos", category: .adulto, icon: "heart.text.square"),
         MedicalScale(name: "NEWS2", description: "Alerta nacional de deterioração", category: .adulto, icon: "waveform.path.ecg"),
         
@@ -133,8 +132,6 @@ struct ScaleDetailView: View {
                 BradenScaleView()
             case "Humpty Dumpty":
                 HumptyDumptyScaleView()
-            case "MEEM":
-                MeemScaleView()
             case "PEWS":
                 PewsScaleView()
             case "MEWS":
